@@ -4,11 +4,15 @@
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
+    "lint": "eslint .",
     "build": "yarn clean && tsc",
     "clean": "rm -rf ./dist"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint": "^8.48.0",
     "typescript": "^5.2.2"
   }
 }
