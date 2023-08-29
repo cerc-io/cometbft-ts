@@ -4,10 +4,12 @@
     "@typescript-eslint"
   ],
   "extends": [
-    "eslint:recommended",
+    "semistandard",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "indent": ["error", 2, { "SwitchCase": 1 }]
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   }
 }
