@@ -1,0 +1,14 @@
+{
+  "name": "@cerc-io/cometbft",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rm -rf ./dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2"
+  }
+}
