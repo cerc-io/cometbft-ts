@@ -4,8 +4,13 @@
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {},
   "devDependencies": {
+    "husky": "^8.0.3",
     "lerna": "^6.6.2"
+  },
+  "scripts": {
+    "lint": "lerna run lint --stream --parallel",
+    "build": "lerna run build",
+    "prepare": "husky install"
   }
 }
