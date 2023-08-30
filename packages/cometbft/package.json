@@ -24,6 +24,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@cerc-io/ts-channel": "^1.0.3-ts-nitro-0.1.1",
     "debug": "^4.3.4",
     "yargs": "^17.7.2"
   }
