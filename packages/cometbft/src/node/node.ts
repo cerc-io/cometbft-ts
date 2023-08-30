@@ -17,6 +17,7 @@ import { AppConns } from '../proxy/multi-app-conn';
 import { TxIndexer } from '../state/txindex/indexer';
 import { BlockIndexer } from '../state/indexer/block';
 import { IndexerService } from '../state/txindex/indexer-service';
+import { Logger } from '../libs/log/logger';
 
 const log = debug('cometbft:node');
 
@@ -76,6 +77,6 @@ export class Node extends service.BaseService {
 // It implements NodeProvider.
 // TODO: Implement
 // TODO: Can throw an error
-export const defaultNewNode = (config: cfg.Config, logger: debug.Debugger): Node => {
+export const defaultNewNode = (config: cfg.Config, logger: Logger): Node => {
   return {} as Node;
 };
