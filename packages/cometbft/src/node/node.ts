@@ -10,6 +10,13 @@ import { Store } from '../state/store';
 import { BlockStore } from '../store/store';
 import { Reactor } from '../p2p/base-reactor';
 import { Mempool } from '../mempool/mempool';
+import { State } from '../consensus/state';
+import { Reactor as csReactor } from '../consensus/reactor';
+import { Pool } from '../evidence/pool';
+import { AppConns } from '../proxy/multi-app-conn';
+import { TxIndexer } from '../state/txindex/indexer';
+import { BlockIndexer } from '../state/indexer/block';
+import { IndexerService } from '../state/txindex/indexer-service';
 
 const log = debug('cometbft:node');
 
@@ -38,6 +45,30 @@ export class Node extends service.BaseService {
   bcReactor?: Reactor; // for block-syncing
   mempoolReactor?: Reactor; // for gossipping transactions
   mempool?: Mempool;
+
+  // TODO: Skip stateSync?
+  // stateSync         bool                    // whether the node should state sync on startup
+  // stateSyncReactor  *statesync.Reactor      // for hosting and restoring state sync snapshots
+  // stateSyncProvider statesync.StateProvider // provides state data for bootstrapping a node
+  // stateSyncGenesis  sm.State                // provides the genesis state for state sync
+
+  consensusState?: State; // latest consensus state
+  consensusReactor?: csReactor; // for participating in the consensus
+
+  // TODO: Implement using libp2p
+  // pexReactor        *pex.Reactor            // for exchanging peer addresses
+
+  evidencePool?: Pool; // tracking evidence
+  proxyApp?: AppConns; // connection to the application
+
+  // rpcListeners      []net.Listener          // rpc servers
+
+  txIndexer?: TxIndexer;
+  blockIndexer?: BlockIndexer;
+  indexerService?: IndexerService;
+
+  // TODO: Implement metrics
+  // prometheusSrv     *http.Server
 }
 
 // DefaultNewNode returns a CometBFT node with default settings for the
