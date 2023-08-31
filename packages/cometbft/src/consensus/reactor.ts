@@ -1,4 +1,5 @@
 import { BaseReactor } from '../p2p/base-reactor';
+import { Part } from '../types/part-set';
 
 // -----------------------------------------------------------------------------
 
@@ -13,4 +14,14 @@ export class Reactor extends BaseReactor {}
 export interface Message {
 // TODO: Can throw an error
   validateBasic (): void
+}
+
+// -------------------------------------
+
+// BlockPartMessage is sent when gossipping a piece of the proposed block.
+// TODO: Implement
+export class BlockPartMessage {
+  height?: bigint;
+  round?: number;
+  part?: Part;
 }

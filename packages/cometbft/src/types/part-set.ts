@@ -25,3 +25,11 @@ export class PartSet {
   // part set doesn't exceed the maximum block bytes
   private byteSize?:bigint;
 }
+
+// -------------------------------------
+
+// TODO: Implement
+export class PartSetHeader {
+  total?: number; // `json:"total"`
+  hash?: HexBytes; // `json:"hash"`
+}
