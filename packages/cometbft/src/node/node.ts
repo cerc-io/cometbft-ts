@@ -17,6 +17,7 @@ import { AppConns } from '../proxy/multi-app-conn';
 import { TxIndexer } from '../state/txindex/indexer';
 import { BlockIndexer } from '../state/indexer/block';
 import { IndexerService } from '../state/txindex/indexer-service';
+import { Logger } from '../libs/log/logger';
 
 const log = debug('cometbft:node');
 
@@ -30,7 +31,7 @@ export class Node extends service.BaseService {
   privValidator?: PrivValidator; // local node's validator key
 
   // network
-  // TODO: Implement using libp2p
+  // TODO: Implement using @cerc-io/peer
   // transport   *p2p.MultiplexTransport
   sw?: Switch; // p2p connections
   // addrBook    pex.AddrBook // known peers
@@ -55,7 +56,7 @@ export class Node extends service.BaseService {
   consensusState?: State; // latest consensus state
   consensusReactor?: csReactor; // for participating in the consensus
 
-  // TODO: Implement using libp2p
+  // TODO: Implement using @cerc-io/peer
   // pexReactor        *pex.Reactor            // for exchanging peer addresses
 
   evidencePool?: Pool; // tracking evidence
@@ -76,6 +77,6 @@ export class Node extends service.BaseService {
 // It implements NodeProvider.
 // TODO: Implement
 // TODO: Can throw an error
-export const defaultNewNode = (config: cfg.Config, logger: debug.Debugger): Node => {
+export const defaultNewNode = (config: cfg.Config, logger: Logger): Node => {
   return {} as Node;
 };

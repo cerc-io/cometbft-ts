@@ -1,5 +1,8 @@
+import Channel from '@cerc-io/ts-channel';
 import type { ReadChannel, ReadWriteChannel } from '@cerc-io/ts-channel';
-import debug from 'debug';
+
+import { Logger } from '../log/logger';
+import { newNopLogger } from '../log/nop-logger';
 
 // Service defines a service that can be started, stopped, and reset.
 export interface Service {
@@ -35,7 +38,7 @@ export interface Service {
   string(): string
 
   // SetLogger sets a logger.
-  setLogger(logger: debug.Debugger): void
+  setLogger(logger: Logger): void
 }
 
 /*
@@ -83,23 +86,99 @@ Typical usage:
 
 // TODO: Implement
 export class BaseService {
-  logger?: debug.Debugger;
+  logger?: Logger;
   private name: string = '';
   private started: number = 0; // atomic
   private stopped: number = 0; // atomic
-  private quit?: ReadWriteChannel<void>;
+  private _quit?: ReadWriteChannel<void>;
 
   // The "subclass" of BaseService
   private impl?: Service;
 
   constructor (params: {
-    logger?: debug.Debugger
+    logger?: Logger
     name?: string
     started?: number
     stopped?: number
-    quit?: ReadWriteChannel<void>
+    _quit?: ReadWriteChannel<void>
     impl?: Service
   }) {
     Object.assign(this, params);
+  }
+
+  // NewBaseService creates a new BaseService.
+  static newBaseService (logger: Logger | undefined, name: string, impl: Service): BaseService {
+    if (!logger) {
+      logger = newNopLogger();
+    }
+
+    return new BaseService({
+      logger,
+      name,
+      _quit: Channel(),
+      impl
+    });
+  }
+
+  // SetLogger implements Service by setting a logger.
+  setLogger (l: Logger): void {
+    this.logger = l;
+  }
+
+  // Start implements Service by calling OnStart (if defined). An error will be
+  // returned if the service is already running or stopped. Not to start the
+  // stopped service, you need to call Reset.
+  // TODO: Implement
+  // TODO: Can throw an error
+  start (): void {}
+
+  // OnStart implements Service by doing nothing.
+  // NOTE: Do not put anything in here,
+  // that way users don't need to call BaseService.OnStart()
+  onStart (): void {}
+
+  // Stop implements Service by calling OnStop (if defined) and closing quit
+  // channel. An error will be returned if the service is already stopped.
+  // TODO: Implement
+  // TODO: Can throw an error
+  stop (): void {}
+
+  // OnStop implements Service by doing nothing.
+  // NOTE: Do not put anything in here,
+  // that way users don't need to call BaseService.OnStop()
+  onStop (): void {}
+
+  // Reset implements Service by calling OnReset callback (if defined). An error
+  // will be returned if the service is running.
+  // TODO: Implement
+  // TODO: Can throw an error
+  reset (): void {}
+
+  // OnReset implements Service by panicking.
+  onReset (): void {
+    // TODO: panic
+    throw new Error('The service cannot be reset');
+  }
+
+  // IsRunning implements Service by returning true or false depending on the
+  // service's state.
+  // TODO: Implement
+  isRunning (): boolean {
+    return false;
+  }
+
+  // Wait blocks until the service is stopped.
+  async wait (): Promise<void> {
+    await this._quit?.shift();
+  }
+
+  // String implements Service by returning a string representation of the service.
+  string (): string {
+    return this.name;
+  }
+
+  // Quit Implements Service by returning a quit channel.
+  quit (): ReadChannel<void> {
+    return this._quit!.readOnly();
   }
 }
