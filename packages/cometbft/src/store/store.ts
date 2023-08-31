@@ -22,7 +22,7 @@ The store can be assumed to contain all contiguous blocks between base and heigh
 // TODO: Implement
 export class BlockStore {
   // TODO: Implement cometbft-db.DB
-  db?: any;
+  private db?: any;
 
   // mtx guards access to the struct fields listed below it. We rely on the database to enforce
   // fine-grained concurrency control for its data, and thus this mutex does not apply to
