@@ -293,7 +293,7 @@ export class Config extends BaseConfig {
 
   // Options for services
 
-  // TODO: Use RPC config?
+  // TODO: Skip RPC?
   // RPC       *RPCConfig       `mapstructure:"rpc"`
 
   p2P?: P2PConfig; // `mapstructure:"p2p"`
