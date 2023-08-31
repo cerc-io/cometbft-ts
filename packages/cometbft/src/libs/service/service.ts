@@ -41,6 +41,15 @@ export interface Service {
   setLogger(logger: Logger): void
 }
 
+export interface BaseServiceParams {
+  logger?: Logger
+  name?: string
+  started?: number
+  stopped?: number
+  _quit?: ReadWriteChannel<void>
+  impl?: Service
+}
+
 /*
 Classical-inheritance-style service declarations. Services can be started, then
 stopped, then optionally restarted.
@@ -83,7 +92,6 @@ Typical usage:
     // stop subroutines, etc.
   }
 */
-
 // TODO: Implement
 export class BaseService {
   logger?: Logger;
@@ -95,14 +103,7 @@ export class BaseService {
   // The "subclass" of BaseService
   private impl?: Service;
 
-  constructor (params: {
-    logger?: Logger
-    name?: string
-    started?: number
-    stopped?: number
-    _quit?: ReadWriteChannel<void>
-    impl?: Service
-  }) {
+  constructor (params: BaseServiceParams) {
     Object.assign(this, params);
   }
 
